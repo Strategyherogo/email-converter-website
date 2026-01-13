@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Converter - Feedback</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 16px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4361ee;
+        }
+        select {
+            cursor: pointer;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .rating {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .rating label {
+            cursor: pointer;
+            font-size: 24px;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating input:checked ~ label,
+        .rating label:hover,
+        .rating label:hover ~ label {
+            opacity: 1;
+        }
+        .stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            gap: 5px;
+        }
+        .stars input { display: none; }
+        .stars label {
+            cursor: pointer;
+            font-size: 32px;
+            color: #666;
+            transition: color 0.2s;
+        }
+        .stars label:hover,
+        .stars label:hover ~ label,
+        .stars input:checked ~ label {
+            color: #ffd700;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #4361ee;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #3451d4;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #4361ee;
+            text-decoration: none;
+        }
+        .success {
+            text-align: center;
+            padding: 40px;
+        }
+        .success h2 {
+            color: #4ade80;
+            margin-bottom: 20px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="form-section">
+            <h1>📧 Email Converter</h1>
+            <p class="subtitle">We'd love your feedback!</p>
+
+            <form id="feedback-form">
+                <div class="form-group">
+                    <label>How would you rate the app?</label>
+                    <div class="stars">
+                        <input type="radio" name="rating" id="star5" value="5">
+                        <label for="star5">⭐</label>
+                        <input type="radio" name="rating" id="star4" value="4">
+                        <label for="star4">⭐</label>
+                        <input type="radio" name="rating" id="star3" value="3">
+                        <label for="star3">⭐</label>
+                        <input type="radio" name="rating" id="star2" value="2">
+                        <label for="star2">⭐</label>
+                        <input type="radio" name="rating" id="star1" value="1">
+                        <label for="star1">⭐</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Feedback Type</label>
+                    <select name="type" id="type" required>
+                        <option value="">Select...</option>
+                        <option value="general">General Feedback</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="feature">Feature Request</option>
+                        <option value="question">Question</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (optional)</label>
+                    <input type="email" name="email" id="email" placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="details">Your Feedback</label>
+                    <textarea name="details" id="details" placeholder="Tell us what you think..." required></textarea>
+                </div>
+
+                <button type="submit">Send Feedback</button>
+            </form>
+        </div>
+
+        <div id="success-section" class="success hidden">
+            <h2>✅ Thank You!</h2>
+            <p>Your feedback has been received.</p>
+            <p style="margin-top: 20px; color: #888;">We appreciate you taking the time to help us improve.</p>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ by <a href="https://buymeacoffee.com/jenyagoesc" target="_blank">Evgeny</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const rating = document.querySelector('input[name="rating"]:checked')?.value || 'No rating';
+            const type = document.getElementById('type').value;
+            const email = document.getElementById('email').value || 'Not provided';
+            const details = document.getElementById('details').value;
+
+            // Create mailto link as fallback
+            const subject = encodeURIComponent(`Email Converter Feedback - ${type}`);
+            const body = encodeURIComponent(`Rating: ${rating}/5\nType: ${type}\nEmail: ${email}\n\nFeedback:\n${details}`);
+
+            // Open email client
+            window.location.href = `mailto:evgeny@targetglobal.vc?subject=${subject}&body=${body}`;
+
+            // Show success
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('success-section').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
