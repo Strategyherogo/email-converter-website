@@ -1,0 +1,6 @@
+# robots.txt for mbox2eml.com
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://mbox2eml.com/sitemap.xml
